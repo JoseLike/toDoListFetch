@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Tarea from "/workspace/toDoList/src/js/component/tarea.jsx";
+import React, { useState, useEffect } from "react";
+import Tarea from "./tarea.jsx";
 
 //create your first component
 const Home = () => {
@@ -32,6 +32,17 @@ const Home = () => {
 	const clickDelete = (index) => {
 		lista.splice(index, 1);
 	};
+
+	useEffect(()=>{
+		const getTasks = async () => {
+			const reponse = await fetch(
+				"http://assets.breatheco.de/apis/fake/todos/user/joselike"
+			);
+			const data = await Response.json();
+			console.log(data)
+		};
+	},[])
+	
 
 	return (
 		<div className="fondo">
