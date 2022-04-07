@@ -10,3 +10,52 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+
+body{
+    background-color: whitesmoke;
+}
+
+.boton{
+ color: red;
+ border-style: none;
+ font-size: 20px;
+ background-color: white;
+}
+
+
+h1{
+    font-size: 80px;
+}
+.bloc{
+    width: 80rem;
+}
+
+.bas{
+    width: 40rem;
+    height: 3rem;
+    background-color: white;
+    
+}
+
+
+.basico{
+    width: 40rem;
+    height: 2rem;
+    background-color: white;
+    
+}
+.basico1{
+    width: 39rem;
+    height: 5px;
+    background-color: white;
+}
+.basico2{
+    width: 38rem;
+    height: 5px;
+    background-color: white;
+}
+.basico3{
+    width: 37rem;
+    height: 5px;
+    background-color: white;
+}
