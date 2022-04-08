@@ -16,13 +16,15 @@ const Home = () => {
 	const validacion = () => {
 		if (tarea.trim().length === 0) {
 			alert("Tarea no valida (Vacia)");
-		} else if (lista.includes(tarea) === true) {
+		} else if (lista.includes({ tarea }) === true) {
 			alert("Tarea no valida (Repetida)");
 		} else {
-			setLista([...lista, tarea]);
+			setLista([...lista, { label: tarea }]);
 			setInputs("");
 		}
+		console.log(lista);
 	};
+
 
 	const handleKeyDown = (event) => {
 		if (event.key === "Enter") {
@@ -33,16 +35,17 @@ const Home = () => {
 		lista.splice(index, 1);
 	};
 
-	useEffect(()=>{
-		const getTasks = async () => {
-			const reponse = await fetch(
-				"http://assets.breatheco.de/apis/fake/todos/user/joselike"
-			);
-			const data = await Response.json();
-			console.log(data)
-		};
-	},[])
-	
+	useEffect(() => {
+		getTasks(), [];
+	});
+
+	const getTasks = async () => {
+		const response = await fetch(
+			"https://assets.breatheco.de/apis/fake/todos/user/joselike"
+		);
+		const data = await response.json();
+		setLista([...lista, { label: data.label }])
+	};
 
 	return (
 		<div className="fondo">
@@ -61,8 +64,8 @@ const Home = () => {
 					{lista.map((items, index) => {
 						return (
 							<Tarea
-								key={index}
-								items={items}
+								key={items.index}
+								items={items.label}
 								delete={() => {
 									clickDelete(index);
 								}}
