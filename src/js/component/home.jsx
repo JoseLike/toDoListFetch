@@ -1,3 +1,4 @@
+import { element } from "prop-types";
 import React, { useState, useEffect } from "react";
 import Tarea from "./tarea.jsx";
 
@@ -25,7 +26,6 @@ const Home = () => {
 		console.log(lista);
 	};
 
-
 	const handleKeyDown = (event) => {
 		if (event.key === "Enter") {
 			validacion();
@@ -36,15 +36,20 @@ const Home = () => {
 	};
 
 	useEffect(() => {
-		getTasks(), [];
-	});
+		getTasks();
+	}, []);
 
 	const getTasks = async () => {
 		const response = await fetch(
 			"https://assets.breatheco.de/apis/fake/todos/user/joselike"
 		);
 		const data = await response.json();
-		setLista([...lista, { label: data.label }])
+		{data.map((element)=>{
+			return(
+				setLista([...lista, { "label": element.label }])
+			)
+		})}
+		;
 	};
 
 	return (
