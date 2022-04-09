@@ -1,10 +1,9 @@
-import { element } from "prop-types";
 import React, { useState, useEffect } from "react";
 import Tarea from "./tarea.jsx";
 
 //create your first component
 const Home = () => {
-	const [tarea, setInputs] = useState("");
+	const [tarea, setInputs] = useState({ label: "" });
 	const [lista, setLista] = useState([]);
 
 	var pendiente = lista.length;
@@ -15,9 +14,12 @@ const Home = () => {
 	}
 
 	const validacion = () => {
+		const labels = lista.map((item) => {
+			return item.label;
+		});
 		if (tarea.trim().length === 0) {
 			alert("Tarea no valida (Vacia)");
-		} else if (lista.includes({ tarea }) === true) {
+		} else if (labels.includes(tarea.label) === true) {
 			alert("Tarea no valida (Repetida)");
 		} else {
 			setLista([...lista, { label: tarea }]);
@@ -31,8 +33,8 @@ const Home = () => {
 			validacion();
 		}
 	};
-	const clickDelete = (index) => {
-		lista.splice(index, 1);
+	const clickDelete = (indextarea) => {
+		setLista(() => lista.filter((value, index) => index !== indextarea));
 	};
 
 	useEffect(() => {
@@ -44,46 +46,43 @@ const Home = () => {
 			"https://assets.breatheco.de/apis/fake/todos/user/joselike"
 		);
 		const data = await response.json();
-		{data.map((element)=>{
-			return(
-				setLista([...lista, { "label": element.label }])
-			)
-		})}
-		;
+		{
+			data.map((element) => {
+				return setLista([...lista, { label: element.label }]);
+			});
+		}
 	};
 
 	return (
-		<div className="fondo">
-			<div className="container">
-				<h1 className="row mx-auto">todos</h1>
-				<div className="d-table-row mx-auto">
-					<input
-						className="shadow bas"
-						id="entradatareas"
-						value={tarea}
-						onKeyDown={handleKeyDown}
-						onChange={(e) => {
-							setInputs(e.target.value);
-						}}
-					/>
-					{lista.map((items, index) => {
-						return (
-							<Tarea
-								key={items.index}
-								items={items.label}
-								delete={() => {
-									clickDelete(index);
-								}}
-							/>
-						);
-					})}
-					<div className="shadow basico contador border border-secondary ps-2">
-						{pendiente}
-					</div>
-					<div className="shadow basico1 border border-dark mx-auto"></div>
-					<div className="shadow basico2 border border-secondary mx-auto"></div>
-					<div className="shadow basico3 border border-secondary mx-auto"></div>
+		<div className="container d-flex-inline justify-conttent-center flex-column">
+			<h1 className="row text-center">todos</h1>
+			<div className="d-table-row">
+				<input
+					className="shadow bas"
+					id="entradatareas"
+					value={tarea.label}
+					onKeyDown={handleKeyDown}
+					onChange={(e) => {
+						setInputs(e.target.value);
+					}}
+				/>
+				{lista.map((items, index) => {
+					return (
+						<Tarea
+							key={items.index}
+							items={items.label}
+							delete={() => {
+								clickDelete(index);
+							}}
+						/>
+					);
+				})}
+				<div className="shadow basico contador border border-secondary ps-2">
+					{pendiente}
 				</div>
+				<div className="shadow basico1 border border-dark mx-auto"></div>
+				<div className="shadow basico2 border border-secondary mx-auto"></div>
+				<div className="shadow basico3 border border-secondary mx-auto"></div>
 			</div>
 		</div>
 	);
