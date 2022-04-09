@@ -13,6 +13,14 @@ const Home = () => {
 		pendiente = lista.length + " items left";
 	}
 
+	useEffect(() => {
+		getTasks();
+	}, []);
+
+	useEffect(() => {
+		updateTasks();
+	}, [lista]);
+
 	const validacion = () => {
 		const labels = lista.map((item) => {
 			return item.label;
@@ -34,12 +42,8 @@ const Home = () => {
 		}
 	};
 	const clickDelete = (indextarea) => {
-		setLista(() => lista.filter((value, index) => index !== indextarea));
+		setLista(lista.filter((value, index) => index !== indextarea));
 	};
-
-	useEffect(() => {
-		getTasks();
-	}, []);
 
 	const getTasks = async () => {
 		const response = await fetch(
@@ -51,6 +55,19 @@ const Home = () => {
 				return setLista([...lista, { label: element.label }]);
 			});
 		}
+	};
+
+	const updateTasks = async () => {
+		const response = await fetch(
+			"https://assets.breatheco.de/apis/fake/todos/user/joselike",
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(lista),
+			}
+		);
 	};
 
 	return (
