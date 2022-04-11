@@ -3,7 +3,7 @@ import Tarea from "./tarea.jsx";
 
 //create your first component
 const Home = () => {
-	const [tarea, setInputs] = useState({ label: "" });
+	const [tarea, setInputs] = useState({ label: "", done: false });
 	const [lista, setLista] = useState([]);
 
 	var pendiente = lista.length;
@@ -21,16 +21,14 @@ const Home = () => {
 		updateTasks();
 	}, [lista]);
 
-	const validacion = () => {
-		const labels = lista.map((item) => {
-			return item.label;
-		});
-		if (tarea.trim().length === 0) {
+	const validacion = (e) => {
+		const labels = lista.map((e) => e.label);
+		if (e.target.value.trim().length === 0) {
 			alert("Tarea no valida (Vacia)");
 		} else if (labels.includes(tarea.label) === true) {
 			alert("Tarea no valida (Repetida)");
 		} else {
-			setLista([...lista, { label: tarea }]);
+			setLista([...lista, tarea]);
 			setInputs("");
 		}
 		console.log(lista);
@@ -38,7 +36,7 @@ const Home = () => {
 
 	const handleKeyDown = (event) => {
 		if (event.key === "Enter") {
-			validacion();
+			validacion(event);
 		}
 	};
 	const clickDelete = (indextarea) => {
@@ -50,15 +48,11 @@ const Home = () => {
 			"https://assets.breatheco.de/apis/fake/todos/user/joselike"
 		);
 		const data = await response.json();
-		{
-			data.map((element) => {
-				return setLista([...lista, { label: element.label }]);
-			});
-		}
+		setLista(data);
 	};
 
 	const updateTasks = async () => {
-		const response = await fetch(
+		await fetch(
 			"https://assets.breatheco.de/apis/fake/todos/user/joselike",
 			{
 				method: "PUT",
@@ -71,8 +65,8 @@ const Home = () => {
 	};
 
 	return (
-		<div className="container d-flex-inline justify-conttent-center flex-column">
-			<h1 className="row text-center">todos</h1>
+		<div className="d-flex flex-column container align-items-center mx-auto">
+			<h1 className="titulo justify-content-center">todos</h1>
 			<div className="d-table-row">
 				<input
 					className="shadow bas"
@@ -80,13 +74,13 @@ const Home = () => {
 					value={tarea.label}
 					onKeyDown={handleKeyDown}
 					onChange={(e) => {
-						setInputs(e.target.value);
+						setInputs({ label: e.target.value, done: false });
 					}}
 				/>
 				{lista.map((items, index) => {
 					return (
 						<Tarea
-							key={items.index}
+							key={index}
 							items={items.label}
 							delete={() => {
 								clickDelete(index);
