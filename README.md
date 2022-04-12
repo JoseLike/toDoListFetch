@@ -34,11 +34,12 @@ $ npm install
 
 ## Estructura y explicación del codigo ⚙️
 
-* La estructura del ejercicio se basa en componentes jsx de React y el uso del hook useState.
-* Se crean dos componentes. Tarea (seran als tareas que se muestren que haya introducido el usuario previamente) y el componente Home que importa tarea y envia a index el completo.
-* El codigo es basico. El usuario introduce una tarea en el input del landing page. Cuando presiona enter entra la funcion "handleKeyDown" la cual hace una callback a "validacion". Esta ultima funcion comprobara si la tarea esta vacia o si esta repetida. Si cumple ambas condiciones la insertara en el array principal de tareas. Al final en el landing page se muestra un contador de tareas.
-* Posteriormente en Home hay un map del array principal. el cual recorre las tareas e inserta el componente "Tarea" por cada una de ellas. Se utiliza el hook "useState" para pasarle props a ese componenete.
-* Dentro de Tarea insertamos un boton de eliminacion. el cual solo aparece al pasar el mouse por encima del componente. Al pulsar en ese boton se hace llamada a una funcion que elimina del array principal esa tarea por su indice. De esa forma en el proximo mapeao con la llamada al useState no aparecera.
+* La estructura del ejercicio es la misma que el ejercicio de toDoList (https://github.com/JoseLike/toDoList).
+* Cambiamos la esttructura de dattos a objetos de tio {label:"", done:false}.
+* Se incluye la estructura de conecttividad  a API mediante fetch, primero se hace un "GET" a la API mediante getTask. El resultado del Get lo guardamos en datta. Posteriormente hacemos un settLista(data) para que inserte los resultados en nuestro Array de tareas que se mapeara y mostrara. 
+* Ese get lo pasamos en un useEffect con una sola ejecucion para que se inicie y por lo tanto nos muestre los datos guardados en la BBDD al recargar la pagina.
+* Para guardar las tareas que introduce el usuario hacemos un peticion a la API mediante fetch "PUT". En updateTasks le pasamos body: JSON.stringify(lista), eso exportara el contenido del Array principal.
+* Para que la app haga esta tarea de exportar automaticamente, pasamos updateTasks dentro de un useEffect, y como segundo argumento ponemos "lista", de esa forma se ejecutara cada vez que lista (nuestro array principal) se vea modificado.
 * Finalmente en Index.js se importa Home y se renderiza.
 
 

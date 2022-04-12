@@ -25,7 +25,7 @@ const Home = () => {
 		const labels = lista.map((e) => e.label);
 		if (e.target.value.trim().length === 0) {
 			alert("Tarea no valida (Vacia)");
-		} else if (labels.includes(tarea.label) === true) {
+		} else if (labels.includes(e.target.value.trim()) === true) {
 			alert("Tarea no valida (Repetida)");
 		} else {
 			setLista([...lista, tarea]);
@@ -88,7 +88,7 @@ const Home = () => {
 						/>
 					);
 				})}
-				<div className="shadow basico contador border border-secondary ps-2">
+				<div className="shadow basico contador border border-secondary ps-2 align-middle">
 					{pendiente}
 				</div>
 				<div className="shadow basico1 border border-dark mx-auto"></div>
