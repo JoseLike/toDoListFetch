@@ -29,7 +29,6 @@ const Home = () => {
 			alert("Tarea no valida (Repetida)");
 		} else {
 			setLista([...lista, tarea]);
-			setInputs("");
 		}
 		console.log(lista);
 	};
@@ -37,6 +36,7 @@ const Home = () => {
 	const handleKeyDown = (event) => {
 		if (event.key === "Enter") {
 			validacion(event);
+			setInputs({ label: "", done: false });
 		}
 	};
 	const clickDelete = (indextarea) => {
